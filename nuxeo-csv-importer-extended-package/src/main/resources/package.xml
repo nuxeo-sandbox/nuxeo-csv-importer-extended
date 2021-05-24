@@ -1,0 +1,38 @@
+<!-- See documentation at http://doc.nuxeo.com/x/HgIz -->
+<package type="addon" name="nuxeo-csv-importer-extended" version="@VERSION@">
+  <title>Nuxeo csv importer extended</title>
+  <description>
+    <p>Put here an HTML description of your Nuxeo Package.</p>
+  </description>
+  <!-- <home-page>http://doc.nuxeo.com/</home-page> -->
+  <vendor>Nuxeo</vendor>
+  <installer restart="true" />
+  <uninstaller restart="true" />
+  <!-- <hotreload-support>false</hotreload-support> -->
+  <!-- <require-terms-and-conditions-acceptance>false</require-terms-and-conditions-acceptance> -->
+  <!-- Nuxeo Validation: none | inprocess | primary_validation | nuxeo_certified -->
+  <nuxeo-validation>none</nuxeo-validation>
+  <!-- Production State: production_ready | testing | proto -->
+  <production-state>testing</production-state>
+  <supported>false</supported>
+  <target-platform>
+    <version>[@NUXEO_TARGET_VERSION@,)</version>
+  </target-platform>
+  <!-- Dependencies on other packages -->
+  <dependencies>
+    <package>nuxeo-web-ui</package>
+    <package>nuxeo-csv</package>
+  </dependencies>
+  <!-- Conflicts with other packages -->
+  <!-- <conflicts> -->
+  <!-- <package>a-conflicting-package:1.0.0:1.0.0</package> -->
+  <!-- </conflicts> -->
+  <!-- Provides features of other packages -->
+  <!-- <provides> -->
+  <!-- <package>an-embedded-package:1.0.0:1.0.0</package> -->
+  <!-- </provides> -->
+  <license></license>
+  <license-url></license-url>
+  <!-- Visibility: PRIVATE | MARKETPLACE | DEV | PUBLIC -->
+  <visibility>PUBLIC</visibility>
+</package>

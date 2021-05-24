@@ -1,0 +1,7 @@
+type,name,dc:title,dc:description
+File,file-1,File One,abc
+File,image-1,Image One,def
+Folder,TheFolder,Folder One,
+File,TheFolder/word,Word One,
+Folder,TheFolder/TheFolder2,Folder two,
+File,TheFolder/TheFolder2/excel,Excel One,

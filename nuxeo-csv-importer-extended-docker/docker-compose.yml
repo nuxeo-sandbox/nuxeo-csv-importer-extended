@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+  nuxeo:
+    image: nuxeo-csv-importer-extended:2021.0.0-SNAPSHOT
+    restart: always
+    ports:
+    - "8080:8080"
+    - "8787:8787"
+    environment:
+    - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8787
+    - NUXEO_CLID=${NUXEO_CLID}
+    - NUXEO_PACKAGES=nuxeo-web-ui nuxeo-csv
+    hostname: nuxeo
+    volumes:
+    - "nuxeo_data:/var/lib/nuxeo"
+    - "./nuxeo_conf/nuxeo.conf:/etc/nuxeo/conf.d/nuxeo.conf"
+volumes:
+  nuxeo_data:
