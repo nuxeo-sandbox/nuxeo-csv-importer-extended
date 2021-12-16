@@ -18,6 +18,8 @@ The expected structure of the archive is the following:
 
 To link a binary file to a document, the binary path in the zip archive must be set in the name column of the csv file
 
+An sample zip archive is available [here](https://github.com/nuxeo-sandbox/nuxeo-csv-importer-extended/blob/master/nuxeo-csv-importer-extended-core/src/test/resources/files/meta-data.csv)
+
 # Known limitations
 This plugin is a work in progress.
 
