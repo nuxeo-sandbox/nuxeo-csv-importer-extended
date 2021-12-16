@@ -69,7 +69,8 @@
                 <BUILD_TAG>latest</BUILD_TAG>
                 <SCM_REF>built-locally</SCM_REF>
                 <VERSION>${project.version}</VERSION>
-                <CLID>${env.NUXEO_CLID}</CLID>
+                <NUXEO_CLID>${env.NUXEO_CLID}</NUXEO_CLID>
+                <PACKAGES>nuxeo-web-ui</PACKAGES>
               </buildArgs>
             </configuration>
           </plugin>

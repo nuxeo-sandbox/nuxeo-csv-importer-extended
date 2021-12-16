@@ -6,7 +6,7 @@ FROM ${BASE_IMAGE}
 ARG VERSION
 ARG SCM_REF
 ARG BUILD_TAG
-ARG CLID
+ARG NUXEO_CLID
 ARG PACKAGES
 
 LABEL com.customer.sample.version=${VERSION}
@@ -16,3 +16,4 @@ LABEL com.customer.sample.build-tag=${BUILD_TAG}
 COPY --chown=nuxeo:0 target/nuxeo-csv-importer-extended-package-*.zip /home/nuxeo/local-packages/nuxeo-csv-importer-extended-package.zip
 
 RUN /install-packages.sh --offline /home/nuxeo/local-packages/nuxeo-csv-importer-extended-package.zip
+RUN /install-packages.sh --clid ${NUXEO_CLID} ${PACKAGES}

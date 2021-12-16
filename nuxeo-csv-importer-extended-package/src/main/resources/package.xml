@@ -1,10 +1,10 @@
 <!-- See documentation at http://doc.nuxeo.com/x/HgIz -->
 <package type="addon" name="nuxeo-csv-importer-extended" version="@VERSION@">
-  <title>Nuxeo csv importer extended</title>
+  <title>Nuxeo CSV Importer Extended</title>
   <description>
-    <p>Put here an HTML description of your Nuxeo Package.</p>
+    <p>An extension of the Nuxeo Platform CSV importer with support for zip archive containing both a metadata csv file and the binary files</p>
   </description>
-  <!-- <home-page>http://doc.nuxeo.com/</home-page> -->
+  <home-page>https://github.com/nuxeo-sandbox/nuxeo-csv-importer-extended</home-page>
   <vendor>Nuxeo</vendor>
   <installer restart="true" />
   <uninstaller restart="true" />
@@ -15,9 +15,9 @@
   <!-- Production State: production_ready | testing | proto -->
   <production-state>testing</production-state>
   <supported>false</supported>
-  <target-platform>
-    <version>[@NUXEO_TARGET_VERSION@,)</version>
-  </target-platform>
+  <platforms>
+    <platform>lts-@NUXEO_TARGET_VERSION@</platform>
+  </platforms>
   <!-- Dependencies on other packages -->
   <dependencies>
     <package>nuxeo-web-ui</package>
@@ -31,8 +31,8 @@
   <!-- <provides> -->
   <!-- <package>an-embedded-package:1.0.0:1.0.0</package> -->
   <!-- </provides> -->
-  <license></license>
-  <license-url></license-url>
+  <license>Apache License, Version 2.0</license>
+  <license-url>http://www.apache.org/licenses/LICENSE-2.0</license-url>
   <!-- Visibility: PRIVATE | MARKETPLACE | DEV | PUBLIC -->
   <visibility>PUBLIC</visibility>
 </package>

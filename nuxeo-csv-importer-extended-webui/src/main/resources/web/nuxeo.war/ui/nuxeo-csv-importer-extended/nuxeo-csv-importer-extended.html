@@ -15,15 +15,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="nuxeo-csv-document-import-extended.html">
-
 <nuxeo-slot-content name="csvDocumentCreatePopup" slot="CREATE_POPUP_PAGES" priority="100">
   <template>
-    <nuxeo-csv-document-import-extended id="csvCreation"
+    <nuxeo-document-import-csv id="csvCreation"
                                name="importCSV"
                                parent="[[parent]]"
                                target-path="{{parentPath}}"
-                               suggester-children="{{suggesterChildren}}"></nuxeo-csv-document-import-extended>
+                               suggester-children="{{suggesterChildren}}"
+                               accept=".csv,.zip"></nuxeo-document-import-csv>
   </template>
 </nuxeo-slot-content>
 

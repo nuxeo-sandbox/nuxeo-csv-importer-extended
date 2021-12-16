@@ -37,7 +37,7 @@ import java.util.zip.ZipFile;
 
 public class CSVImporterExtendedWork extends CSVImporterWork {
 
-    private static final String MARKER = "meta-data.csv";
+    private static final String MARKER = "metadata.csv";
 
     private static final Logger log = LogManager.getLogger(CSVImporterExtendedWork.class);
 
