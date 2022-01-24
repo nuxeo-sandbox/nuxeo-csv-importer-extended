@@ -9,6 +9,13 @@ cd nuxeo-csv-importer-extended
 mvn clean install
 ```
 
+To build the plugin without building the Docker image, use:
+
+```
+mvn -DskipDocker=true clean install
+```
+
+
 # How to use
 
 This plugin extends the default CSV import plugin. All the [documentation of the CSV importer](https://doc.nuxeo.com/nxdoc/nuxeo-csv/) remains applicable. In addition to this, the plugin brings the ability to upload a zip file instead of a simple .csv file.
