@@ -23,14 +23,32 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import java.util.List;
+import org.nuxeo.ecm.automation.core.util.ComplexTypeJSONDecoder;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.Blobs;
+import org.nuxeo.ecm.core.schema.types.ComplexType;
+import org.nuxeo.ecm.core.schema.types.CompositeType;
+import org.nuxeo.ecm.core.schema.types.Field;
+import org.nuxeo.ecm.core.schema.types.ListType;
+import org.nuxeo.ecm.core.schema.types.SimpleTypeImpl;
+import org.nuxeo.ecm.core.schema.types.Type;
+import org.nuxeo.ecm.core.schema.types.primitives.BooleanType;
+import org.nuxeo.ecm.core.schema.types.primitives.DateType;
+import org.nuxeo.ecm.core.schema.types.primitives.DoubleType;
+import org.nuxeo.ecm.core.schema.types.primitives.IntegerType;
+import org.nuxeo.ecm.core.schema.types.primitives.LongType;
+import org.nuxeo.ecm.core.schema.types.primitives.StringType;
 import org.nuxeo.ecm.core.transientstore.api.TransientStore;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
@@ -96,6 +114,89 @@ public class CSVImporterExtendedWork extends CSVImporterWork {
             return null;
         }
     }
+
+    @Override
+    protected Serializable convertValue(CompositeType compositeType, String fieldName, String headerValue,
+                                        String stringValue, long lineNumber) {
+        if (compositeType.hasField(fieldName)) {
+            Field field = compositeType.getField(fieldName);
+            if (field != null) {
+                try {
+                    Serializable fieldValue = null;
+                    Type fieldType = field.getType();
+                    if (fieldType.isComplexType()) {
+                        if (fieldType instanceof ComplexType) {
+                            ComplexType complex = (ComplexType) fieldType;
+                            if (complex.getFieldsCount() == 6 && complex.hasField("digest")) {
+                                fieldValue = (Serializable) createBlobFromFilePath(stringValue);
+                                if (fieldValue == null) {
+                                    logError(lineNumber, "The file '%s' does not exist",
+                                            LABEL_CSV_IMPORTER_NOT_EXISTING_FILE, stringValue);
+                                    return null;
+                                }
+                            }
+                        } else {
+                            fieldValue = (Serializable) ComplexTypeJSONDecoder.decode((ComplexType) fieldType,
+                                    stringValue);
+                            replaceBlobs((Map<String, Object>) fieldValue);
+                        }
+                    } else {
+                        if (fieldType.isListType()) {
+                            Type listFieldType = ((ListType) fieldType).getFieldType();
+                            if (listFieldType.isSimpleType()) {
+                                /*
+                                 * Array.
+                                 */
+                                fieldValue = stringValue.split(options.getListSeparatorRegex());
+                            } else {
+                                /*
+                                 * Complex list.
+                                 */
+                                fieldValue = (Serializable) ComplexTypeJSONDecoder.decodeList((ListType) fieldType,
+                                        stringValue);
+                                replaceBlobs((List<Object>) fieldValue);
+                            }
+                        } else {
+                            /*
+                             * Primitive type.
+                             */
+                            Type type = field.getType();
+                            if (type instanceof SimpleTypeImpl) {
+                                type = type.getSuperType();
+                            }
+                            if (type.isSimpleType()) {
+                                if (type instanceof StringType) {
+                                    fieldValue = stringValue;
+                                } else if (type instanceof IntegerType) {
+                                    fieldValue = Integer.valueOf(stringValue);
+                                } else if (type instanceof LongType) {
+                                    fieldValue = Long.valueOf(stringValue);
+                                } else if (type instanceof DoubleType) {
+                                    fieldValue = Double.valueOf(stringValue);
+                                } else if (type instanceof BooleanType) {
+                                    fieldValue = Boolean.valueOf(stringValue);
+                                } else if (type instanceof DateType) {
+                                    DateFormat dateFormat = options.getDateFormat();
+                                    fieldValue = dateFormat != null ? dateFormat.parse(stringValue) : stringValue;
+                                }
+                            }
+                        }
+                    }
+                    return fieldValue;
+                } catch (ParseException | NumberFormatException | IOException e) {
+                    logError(lineNumber, "Unable to convert field '%s' with value '%s'",
+                            LABEL_CSV_IMPORTER_CANNOT_CONVERT_FIELD_VALUE, headerValue, stringValue);
+                    log.debug(e, e);
+                }
+            }
+        } else {
+            logError(lineNumber, "Field '%s' does not exist on type '%s'", LABEL_CSV_IMPORTER_NOT_EXISTING_FIELD,
+                    headerValue, compositeType.getName());
+        }
+        return null;
+    }
+
+
 
     public ZipFile getArchiveFileIfValid(File file) throws IOException {
         try {
