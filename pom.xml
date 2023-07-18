@@ -5,12 +5,12 @@
     <parent>
         <groupId>org.nuxeo</groupId>
         <artifactId>nuxeo-parent</artifactId>
-        <version>2021.29</version>
+        <version>2023.0</version>
     </parent>
 
     <groupId>org.nuxeo.labs</groupId>
     <artifactId>nuxeo-csv-importer-extended-parent</artifactId>
-    <version>2021.2.0-SNAPSHOT</version>
+    <version>2023.0.0-SNAPSHOT</version>
     <name>Nuxeo csv importer extended parent</name>
     <description/>
     <packaging>pom</packaging>
