@@ -70,10 +70,11 @@ public class CSVImporterExtendedWork extends CSVImporterWork {
         TransientStore store = getStore();
         setStatus("Importing");
         openUserSession();
-        CSVFormat csvFormat = CSVFormat.DEFAULT.withHeader()
-                .withEscape(options.getEscapeCharacter())
-                .withCommentMarker(options.getCommentMarker())
-                .withIgnoreSurroundingSpaces();
+        CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
+                .setHeader()
+                .setEscape(options.getEscapeCharacter())
+                .setCommentMarker(options.getCommentMarker())
+                .setIgnoreSurroundingSpaces(true).build();
         try {
             getArchiveFileIfValid(getBlob().getFile());
         } catch (IOException e) {
@@ -99,7 +100,7 @@ public class CSVImporterExtendedWork extends CSVImporterWork {
     }
 
     @Override
-    protected Blob createBlobFromFilePath(String fileRelativePath) throws IOException {
+    protected Blob createBlobFromFilePath(String fileRelativePath) {
         ZipEntry blobIndex = zip.getEntry(fileRelativePath);
         if (blobIndex != null) {
             Blob blob;
@@ -125,8 +126,7 @@ public class CSVImporterExtendedWork extends CSVImporterWork {
                     Serializable fieldValue = null;
                     Type fieldType = field.getType();
                     if (fieldType.isComplexType()) {
-                        if (fieldType instanceof ComplexType) {
-                            ComplexType complex = (ComplexType) fieldType;
+                        if (fieldType instanceof ComplexType complex) {
                             if (complex.getFieldsCount() == 6 && complex.hasField("digest")) {
                                 fieldValue = (Serializable) createBlobFromFilePath(stringValue);
                                 if (fieldValue == null) {

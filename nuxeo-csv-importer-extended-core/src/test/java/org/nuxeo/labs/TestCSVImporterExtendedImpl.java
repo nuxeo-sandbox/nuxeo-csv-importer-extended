@@ -25,7 +25,6 @@ import org.nuxeo.runtime.test.runner.TransactionalFeature;
 import javax.inject.Inject;
 import java.io.File;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertTrue;
 import static org.nuxeo.ecm.csv.core.CSVImporterExtendedImpl.ZIP_MIMETYPE;
@@ -77,10 +76,10 @@ public class TestCSVImporterExtendedImpl {
         DocumentModelList children = coreSession.query(String.format("Select * From Document Where ecm:ancestorId = '%s'", testFolder.getId()));
         Assert.assertEquals(6, children.size());
 
-        List<DocumentModel> folders = children.stream().filter(child -> "Folder".equals(child.getType())).collect(Collectors.toList());
+        List<DocumentModel> folders = children.stream().filter(child -> "Folder".equals(child.getType())).toList();
         Assert.assertEquals(2, folders.size());
 
-        List<DocumentModel> files = children.stream().filter(child -> !"Folder".equals(child.getType())).collect(Collectors.toList());
+        List<DocumentModel> files = children.stream().filter(child -> !"Folder".equals(child.getType())).toList();
         Assert.assertEquals(4, files.size());
     }
 
