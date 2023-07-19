@@ -21,7 +21,6 @@
         <filter token="VERSION" value="${maven.project.version}" />
         <filter token="DISTRIB_VERSION" value="${nuxeo.platform.version}" />
         <filter token="NUXEO_TARGET_VERSION" value="${nuxeo.target.version}" />
-        <filter token="STUDIO_PROJECT_VERSION" value="${studio.project.version}" />
       </filterset>
     </copy>
 
@@ -105,23 +104,10 @@
       </then>
     </if>
 
-    <var name="install.templates" value="" />
-    <if>
-      <available file="${outdir}/marketplace/install/templates" />
-      <then>
-        <var
-          name="install.templates"
-          value="${line.separator}
-  &lt;copy dir=&quot;${package.root}/install/templates&quot; todir=&quot;${env.templates}&quot; overwrite=&quot;true&quot; /&gt;${line.separator}
-  &lt;config addtemplate=&quot;nuxeo-csv-importer-extended&quot; /&gt;${line.separator}" />
-      </then>
-    </if>
-
     <copy file="src/main/resources/install.xml" todir="${outdir}/marketplace" overwrite="true">
       <filterset>
         <filter token="BUNDLES" value="${install.bundles}" />
         <filter token="LIBS" value="${install.libs}" />
-        <filter token="TEMPLATES" value="${install.templates}" />
       </filterset>
     </copy>
 
