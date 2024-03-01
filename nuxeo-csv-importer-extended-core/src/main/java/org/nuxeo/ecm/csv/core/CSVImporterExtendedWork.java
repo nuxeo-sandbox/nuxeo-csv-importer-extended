@@ -76,7 +76,9 @@ public class CSVImporterExtendedWork extends CSVImporterWork {
                 .setCommentMarker(options.getCommentMarker())
                 .setIgnoreSurroundingSpaces(true).build();
         try {
-            getArchiveFileIfValid(getBlob().getFile());
+            try (var cFile = getBlob().getCloseableFile()) {
+                getArchiveFileIfValid(cFile.getFile());
+            }
         } catch (IOException e) {
             log.error(e);
         }
