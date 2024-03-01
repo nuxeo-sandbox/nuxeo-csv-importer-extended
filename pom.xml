@@ -10,7 +10,7 @@
 
     <groupId>org.nuxeo.labs</groupId>
     <artifactId>nuxeo-csv-importer-extended-parent</artifactId>
-    <version>2023.1.0</version>
+    <version>2023.2.SNAPSHOT</version>
     <name>Nuxeo csv importer extended parent</name>
     <description/>
     <packaging>pom</packaging>

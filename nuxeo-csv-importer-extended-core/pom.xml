@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.nuxeo.labs</groupId>
     <artifactId>nuxeo-csv-importer-extended-parent</artifactId>
-    <version>2023.1.0</version>
+    <version>2023.2-SNAPSHOT</version>
   </parent>
   <artifactId>nuxeo-csv-importer-extended-core</artifactId>
   <name>Nuxeo csv importer extended core</name>
